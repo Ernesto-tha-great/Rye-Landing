@@ -1,6 +1,10 @@
 "use client";
-import { useQuery, gql } from "@apollo/client";
-import { GET_PRODUCTS_QUERY } from "../graphql/queries";
+import { useQuery, gql, useMutation } from "@apollo/client";
+import {
+  GET_PRODUCTS_QUERY,
+  REQUEST_PRODUCT_MUTATION,
+  GET_PRODUCT_QUERY,
+} from "../graphql/queries";
 import Navbar from "@/components/Navbar";
 import { EB_Garamond } from "next/font/google";
 import { cn, truncateText } from "@/lib/utils";
@@ -14,11 +18,13 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
 
 const font = EB_Garamond({ weight: "600", subsets: ["latin"] });
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [url, setUrl] = useState("");
   const { loading, error, data } = useQuery(GET_PRODUCTS_QUERY);
 
   useEffect(() => {
@@ -52,12 +58,12 @@ export default function Home() {
           <h1
             className={cn("text-6xl font-semibold text-white", font.className)}
           >
-            Official sunscreen of the Good Life
+            Official skincare of the Good Life
           </h1>
         </div>
       </div>
 
-      <div className="bg-[#f6f2ed] flex flex-col  items-center">
+      <div className="bg-[#f6f2ed] flex flex-col  items-center py-4">
         <div className="flex flex-col items-center gap-20 my-12">
           <h1
             className={cn(
@@ -76,7 +82,7 @@ export default function Home() {
         <Button>Shop Now</Button>
       </div>
 
-      <div className="bg-[#f6f2ed] flex flex-col  items-center">
+      <div className="bg-white flex flex-col  items-center border-t-2 pb-8 border-gray-500">
         <div className="flex flex-col items-center gap-20 my-12">
           <h1
             className={cn(
@@ -148,6 +154,23 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="bg-[#f6f2ed] flex flex-col  items-center py-4 border-t-2 border-gray-500">
+        <div className="flex flex-col items-center gap-8 my-12">
+          <h1
+            className={cn(
+              "text-6xl font-semibold text-gray-700/80",
+              font.className
+            )}
+          >
+            Add products you want to see
+          </h1>
+          <p className="text-center text-xl text-[#8797A7] max-w-2xl">
+            Add a product you want to purchase from shopify, amazon or walmart.
+            Simply paste a link to the prodcut below and we will handle the rest
+          </p>
         </div>
       </div>
     </main>
