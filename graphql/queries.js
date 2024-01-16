@@ -9,6 +9,7 @@ export const GET_PRODUCTS_QUERY = gql`
       id
       title
       marketplace
+      description
       isAvailable
       images {
         url

@@ -3,8 +3,15 @@ import { useQuery, gql } from "@apollo/client";
 import { GET_PRODUCTS_QUERY } from "../graphql/queries";
 import Navbar from "@/components/Navbar";
 import { EB_Garamond } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { cn, truncateText } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -81,28 +88,64 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="grid grid-cols-3 gap-8 mx-6">
+        <div className="grid grid-cols-3 gap-6 mx-6">
           {products?.map((product: any) => (
             <div
-              className="flex flex-col bg-[#f7cf9b] gap-6 p-4  rounded-xl"
+              className="flex flex-col  gap-6 p-4  rounded-xl"
               key={product.id}
             >
               <div>
-                {product.images?.map((image: any) => (
-                  <Image
-                    src={image.url}
-                    alt="product"
-                    width={200}
-                    height={200}
-                    key={image}
-                  />
-                ))}
+                <Carousel>
+                  <CarouselContent>
+                    {product.images?.map((image: any, index: any) => (
+                      <CarouselItem key={index}>
+                        <Image
+                          src={image.url}
+                          alt="product"
+                          width={200}
+                          height={200}
+                          key={image}
+                        />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
               </div>
 
-              <h1 className=" inline-flex"> Title: {product.title}</h1>
-              <h1> Description: {product.description}</h1>
-              <h1>Currency: {product.price.currency}</h1>
-              <h1>Price: {product.price.displayValue}</h1>
+              <div className="bg-[#f2cc9d] rounded-xl p-5 gap-3 flex flex-col">
+                <h1
+                  className={cn(
+                    "text-red-800/70 text-2xl font-semibold",
+                    font.className
+                  )}
+                >
+                  {product.title}
+                </h1>
+
+                <h1
+                  className={cn(" line-clamp-2 text-gray-600", font.className)}
+                >
+                  {product.description}
+                </h1>
+                <h1
+                  className={cn(
+                    "text-red-800/70 text-lg font-semibold",
+                    font.className
+                  )}
+                >
+                  {product.vendor}
+                </h1>
+                <h1
+                  className={cn(
+                    "text-green-800/70 text-2xl font-semibold",
+                    font.className
+                  )}
+                >
+                  {product.price.displayValue}
+                </h1>
+              </div>
             </div>
           ))}
         </div>
